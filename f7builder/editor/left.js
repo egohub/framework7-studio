@@ -1,6 +1,9 @@
-const path = require('path');
-const url = require('url');
-const fs = require('fs');
+const electron = require('electron')
+const Menu = electron.Menu
+const path = require('path')
+const url = require('url')
+const fs = require('fs')
+const BrowserWindow = electron.remote.BrowserWindow
 
 fs.readdir(path.join(__dirname, 'pages/'), (err, dir) => {
     $$(document).find('#list-file-html').empty();
@@ -62,4 +65,41 @@ fs.readdir(path.join(__dirname, 'js/'), (err, dir) => {
 
 var searchbar = app.searchbar.create({
     el: '.searchbar'
+});
+
+$$(document).on('click', '#btn-design-html', function() {
+    var fileName = $$(this).attr('data-file');
+    let loadpage
+	loadpage = new BrowserWindow({
+        width: 1000,
+        height: 500,
+        icon: path.join(__dirname, 'img/favicon.png')
+    })
+
+    loadpage.loadURL(url.format({
+        pathname: path.join(__dirname, 'builder.html'),
+        protocol: 'file:',
+        slashes: true
+    }))
+
+    var template = [{
+        label: "View",
+        submenu: [{
+            label: "Reload",
+            click: function() {
+                loadpage.webContents.reload();
+            }
+        }]
+    }, {
+        label: "Developer",
+        submenu: [{
+            label: "Dev Tools",
+            click: function() {
+                loadpage.webContents.openDevTools()
+            }
+        }]
+    }]
+
+    var menu = Menu.buildFromTemplate(template2);
+    loadpage.setMenu(menu);
 });
