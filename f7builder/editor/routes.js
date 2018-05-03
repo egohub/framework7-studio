@@ -1,4 +1,8 @@
 routes = [{
-    path: '(.*)',
-    url: './pages/404.html'
-}];
+        name: 'editorhtml',
+        path: '/',
+        url: './pages/editorhtml.html',
+        options: {
+            animate: false,
+        }
+    }];
