@@ -22,15 +22,3 @@ var view_main = app.views.create('#view-main', {
 var view_left = app.views.create('.view-left', {
     url: '/'
 });
-
-$$(document).on('click', '#btn-design-html', function() {
-    var fileName = $$(this).attr('data-file');
-
-    fs.readFile(path.join(__dirname, 'pages/' + fileName), 'utf-8', (err, data) => {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        console.log(data);
-    });
-});
