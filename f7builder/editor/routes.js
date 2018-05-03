@@ -9,4 +9,3 @@ routes = [{
     path: '(.*)',
     url: './pages/404.html'
 }];
->>>>>>> upstream/master

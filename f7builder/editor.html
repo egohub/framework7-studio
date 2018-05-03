@@ -65,7 +65,7 @@
 
         <div class="views ios-edges">
             <div class="view view-main">
-                <div id="editor">cek</div>
+                <div id="editor">2</div>
             </div>
         </div>
     </div>
@@ -77,6 +77,19 @@
     <script>
         var ed = ace.edit("editor");
         ed.setTheme("ace/theme/monokai");
+        $$(document).on('click', '#btn-open-html', function() {
+            var fileName = $$(this).attr('data-file');
+            fs.readFile(path.join(__dirname, 'pages/' + fileName), 'utf-8', (err, data) => {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                var mode = autoImplementedMode(fileName);
+                ed.getSession().setMode(mode);
+                console.log(mode);
+                console.log(data);
+            });
+        });
         function autoImplementedMode(filename){
             var ext = filename.split('.').pop();
             var prefix = "ace/mode/";
@@ -84,10 +97,6 @@
             if(!ext){
                 return prefix + "text";
             }
-        
-            /**
-             *  Functional, but inefficient if you want to write it by yourself ....
-             */
             switch (ext) {
                 case "js":
                 return prefix + "javascript";
@@ -96,12 +105,7 @@
                 case "html":
                 return prefix + "html";
             }
-        }
-        
-        var filename = "myfile.html";
-        // In this case "ace/mode/javascript"
-        var mode = autoImplementedMode(filename);
-        ed.getSession().setMode(mode);
+        }  
     </script>
 </body>
 </html>
