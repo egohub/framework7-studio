@@ -1,6 +1,6 @@
-const path = require('path')
-const url = require('url')
-const fs = require('fs')
+const path = require('path');
+const url = require('url');
+const fs = require('fs');
 
 fs.readdir(path.join(__dirname, 'pages/'), (err, dir) => {
     $$(document).find('#list-file-html').empty();
@@ -19,11 +19,11 @@ fs.readdir(path.join(__dirname, 'pages/'), (err, dir) => {
         for (var i = 0; i < dir.length; i++) {
             let fileName = dir[i];
             $$(document).find('#list-file-html').append(
-                '<li id="btn-open-html" data-file="' + fileName + '">' +
+                '<li>' +
                 '   <div class="item-content">' +
                 '       <div class="item-inner">' +
                 '           <div class="item-title">' + fileName + '</div>' +
-                '           <div class="item-after"><i class="icon material-icons">view_carousel</i>&nbsp;&nbsp;&nbsp;<i class="material-icons" style="font-size:22px;">edit</i></div>' +
+                '           <div class="item-after"><i class="icon material-icons" id="btn-design-html" data-file="' + fileName + '">view_carousel</i>&nbsp;&nbsp;&nbsp;<i class="material-icons" style="font-size:22px;" id="btn-open-html" data-file="' + fileName + '">edit</i></div>' +
                 '       </div>' +
                 '   </div>' +
                 '</li>');
