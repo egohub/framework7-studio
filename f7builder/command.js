@@ -1,3 +1,5 @@
+var pretty = require('pretty');
+
 document.addEventListener('keydown', function(event) {
     if (event.code == 'KeyS' && (event.ctrlKey || event.metaKey)) {
         var html = editor.getHtml();
@@ -104,7 +106,9 @@ command.add('save-code', {
     run: function(editor, btn) {
         btn.set('active', false);
 
-        var html = editor.getHtml();
+        var editor_html = editor.getHtml();
+
+        var html = pretty(editor_html);
 
         if (file_open_active === '') {
             prompt({

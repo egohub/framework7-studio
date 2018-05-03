@@ -19,11 +19,11 @@ fs.readdir(path.join(__dirname, 'pages/'), (err, dir) => {
         for (var i = 0; i < dir.length; i++) {
             let fileName = dir[i];
             $$(document).find('#list-file-html').append(
-                '<li>' +
+                '<li id="btn-open-html" data-file="' + fileName + '">' +
                 '   <div class="item-content">' +
                 '       <div class="item-inner">' +
                 '           <div class="item-title">' + fileName + '</div>' +
-                '           <div class="item-after"><i class="material-icons">edit</i></div>' +
+                '           <div class="item-after"><i class="icon material-icons">view_carousel</i>&nbsp;&nbsp;&nbsp;<i class="material-icons" style="font-size:22px;">edit</i></div>' +
                 '       </div>' +
                 '   </div>' +
                 '</li>');
@@ -62,4 +62,18 @@ fs.readdir(path.join(__dirname, 'js/'), (err, dir) => {
 
 var searchbar = app.searchbar.create({
     el: '.searchbar'
+});
+
+$$(document).on('click', '#btn-open-html', function() {
+    var fileName = $$(this).attr('data-file');
+
+    console.log(fileName);
+
+    fs.readFile(path.join(__dirname, 'pages/' + fileName), 'utf-8', (err, data) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log(data);
+    })
 });

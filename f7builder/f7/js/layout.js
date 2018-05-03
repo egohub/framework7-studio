@@ -67,7 +67,7 @@ blockManager.add('template-2', {
         '           <form id="searchbar-expandable" class="searchbar searchbar-expandable">' +
         '               <div class="searchbar-inner">' +
         '                   <div class="searchbar-input-wrap">' +
-        '                       <input type="search" placeholder="Search"/>' +
+        '                       <input type="search" placeholder="Search">' +
         '                       <i class="searchbar-icon"></i>' +
         '                       <span class="input-clear-button"></span>' +
         '                   </div>' +

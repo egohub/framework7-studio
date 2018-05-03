@@ -1,1 +1,46 @@
-<div class="page"><div class="navbar"><div class="navbar-inner"><div class="left"><a class="link icon-only"><i class="icon material-icons">chevron_left</i></a></div><div class="title">Title</div><div class="right"><a class="link icon-only"><i class="icon material-icons">info</i></a></div></div></div><div class="fab fab-right-bottom"><a href="#"><i class="icon f7-icons">add</i><i class="icon f7-icons">close</i></a><div class="fab-buttons fab-buttons-left"><a><i class="icon material-icons">looks_one</i></a><a><i class="icon material-icons">looks_two</i></a><a><i class="icon material-icons">looks_3</i></a></div></div><div class="page-content"><div class="list inline-labels no-hairlines-md"><ul><li class="item-content item-input"><div class="item-media"><i class="icon material-icons">info</i></div><div class="item-inner"><div class="item-title item-label">Text</div><div class="item-input-wrap"><input type="text" placeholder="text"/><span class="input-clear-button"></span></div></div></li><li class="item-content item-input"><div class="item-media"><i class="icon material-icons">info</i></div><div class="item-inner"><div class="item-title item-label">Password</div><div class="item-input-wrap"><input type="password" placeholder="password"/><span class="input-clear-button"></span></div></div></li><li class="item-content item-input"><div class="item-media"><i class="icon material-icons">info</i></div><div class="item-inner"><div class="item-title item-label">E-mail</div><div class="item-input-wrap"><input type="email" placeholder="e-mail"/><span class="input-clear-button"></span></div></div></li><li class="item-content item-input"><div class="item-media"><i class="icon material-icons">info</i></div><div class="item-inner"><div class="item-title item-label">URL</div><div class="item-input-wrap"><input type="url" placeholder="url"/><span class="input-clear-button"></span></div></div></li><li class="item-content item-input"><div class="item-media"><i class="icon material-icons">info</i></div><div class="item-inner"><div class="item-title item-label">Number</div><div class="item-input-wrap"><input type="text" placeholder="Enter number" required="" validate="" pattern="[0-9]*" data-error-message="Only numbers please!"/><span class="input-clear-button"></span></div></div></li><li class="item-content item-input"><div class="item-media"><i class="icon material-icons">info</i></div><div class="item-inner"><div class="item-title item-label">Phone</div><div class="item-input-wrap"><input type="tel" placeholder="Your phone number"/><span class="input-clear-button"></span></div></div></li><li class="item-content item-input"><div class="item-media"><i class="icon material-icons">info</i></div><div class="item-inner"><div class="item-title item-label">Date</div><div class="item-input-wrap"><input type="date" value="2014-04-30" placeholder="Please choose..."/></div></div></li><li class="item-content item-input"><div class="item-media"><i class="icon material-icons">info</i></div><div class="item-inner"><div class="item-title item-label">Date Time</div><div class="item-input-wrap"><input type="datetime-local" placeholder="Please choose..."/></div></div></li><li class="item-content item-input"><div class="item-media"><i class="icon material-icons">info</i></div><div class="item-inner"><div class="item-title item-label">Text Area</div><div class="item-input-wrap"><textarea placeholder="text" class="resizable"></textarea><span class="input-clear-button"></span></div></div></li><li class="item-content item-input"><div class="item-media"><i class="icon material-icons">info</i></div><div class="item-inner"><div class="item-title item-label">Select</div><div class="item-input-wrap"><select placeholder="Please choose..."><option value="Male">Male</option><option value="Female">Female</option></select><span class="input-clear-button"></span></div></div></li><li class="item-content item-input"><div class="item-media"><i class="icon material-icons">info</i></div><div class="item-inner"><div class="item-title item-label">Range Slider</div><div class="item-input-wrap"><div class="range-slider"><input type="range" min="0" max="100" step="0.1"/></div><span class="input-clear-button"></span></div></div></li></ul></div></div></div>
+<div class="page">
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="left">
+        <a class="link icon-only">
+          <i class="icon material-icons">chevron_left</i>
+        </a>
+      </div>
+      <div class="title">Title</div>
+      <div class="right">
+        <a data-searchbar=".searchbar" class="link icon-only searchbar-enable">
+          <i class="icon material-icons">search</i>
+        </a>
+      </div>
+      <form id="searchbar-expandable" class="searchbar searchbar-expandable">
+        <div class="searchbar-inner">
+          <div class="searchbar-input-wrap">
+            <input type="search" placeholder="Search" />
+            <i class="searchbar-icon"></i><span class="input-clear-button"></span></div><span class="searchbar-disable-button">Cancel</span></div>
+      </form>
+    </div>
+  </div>
+  <div class="fab fab-right-bottom">
+    <a href="#">
+      <i class="icon f7-icons">add</i>
+      <i class="icon f7-icons">close</i>
+    </a>
+    <div class="fab-buttons fab-buttons-left">
+      <a>
+        <i class="icon material-icons">looks_one</i>
+      </a>
+      <a>
+        <i class="icon material-icons">looks_two</i>
+      </a>
+      <a>
+        <i class="icon material-icons">looks_3</i>
+      </a>
+    </div>
+  </div>
+  <div class="page-content"></div>
+</div>
+<script>
+  var searchbar = app.searchbar.create({
+    el: '.searchbar',
+  });
+</script>
