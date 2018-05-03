@@ -1,0 +1,51 @@
+<div class="page">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left"><a class="link icon-only"><i class="icon material-icons">chevron_left</i></a></div>
+            <div class="title">Title</div>
+            <div class="right"><a data-searchbar=".searchbar" class="link icon-only searchbar-enable"><i class="icon material-icons">search</i></a></div>
+            <form id="searchbar-expandable" class="searchbar searchbar-expandable">
+                <div class="searchbar-inner">
+                    <div class="searchbar-input-wrap"><input type="search" placeholder="Search" /><i class="searchbar-icon"></i><span class="input-clear-button"></span></div><span class="searchbar-disable-button">Cancel</span></div>
+            </form>
+        </div>
+    </div>
+    <div class="toolbar toolbar-bottom-md tabbar-labels">
+        <div class="toolbar-inner"><a class="tab-link tab-link-active"><i class="icon material-icons">email</i><span class="tabbar-label">Inbox</span></a><a class="tab-link"><i class="icon material-icons">today<span class="badge color-red">5</span></i><span class="tabbar-label">Calendar</span></a>
+            <a
+                class="tab-link"><i class="icon material-icons">file_upload</i><span class="tabbar-label">Upload</span></a>
+        </div>
+    </div>
+    <div class="page-content">
+        <div class="data-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="input-cell"><span class="table-head-label">ID</span>
+                            <div id="ijkie3" class="input"><input type="number" placeholder="Filter" /></div>
+                        </th>
+                        <th class="input-cell"><span class="table-head-label">Name</span>
+                            <div class="input"><input type="text" placeholder="Filter" /></div>
+                        </th>
+                        <th class="input-cell"><span class="table-head-label">Gender</span>
+                            <div class="input input-dropdown"><select><option value="All">All</option><option value="Male">Male</option><option value="Female">Female</option></select></div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>John Doe</td>
+                        <td>john@doe.com</td>
+                        <td>Male</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    var searchbar = app.searchbar.create({
+        el: '.searchbar',
+    });
+</script>
