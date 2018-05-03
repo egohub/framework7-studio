@@ -336,7 +336,44 @@ app.on('ready', function() {
         builderWindow.setMenu(menu);
     }
 
+    function mainEditor() {
+        var editorWindow = new BrowserWindow({
+            width: 1204,
+            height: 700,
+            icon: path.join(__dirname, 'f7builder/img/favicon.png')
+        })
+
+        editorWindow.loadURL(url.format({
+            pathname: path.join(__dirname, 'f7builder/editor.html'),
+            protocol: 'file:',
+            slashes: true
+        }))
+
+        var template = [{
+            label: "View",
+            submenu: [{
+                label: "Reload",
+                click: function() {
+                    editorWindow.webContents.reload();
+                }
+            }]
+        }, {
+            label: "Tools",
+            submenu: [{
+                label: "Developer Tools",
+                click: function() {
+                    editorWindow.webContents.openDevTools()
+                }
+            }]
+        }]
+
+        var menu = Menu.buildFromTemplate(template);
+        editorWindow.setMenu(menu);
+    }
+
     mainApplication();
+
+    mainEditor();
 
     mainWindow.on('closed', function() {
         mainWindow = null;
