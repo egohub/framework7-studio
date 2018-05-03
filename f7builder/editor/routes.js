@@ -1,8 +1,12 @@
 routes = [{
-        name: 'editorhtml',
-        path: '/',
-        url: './pages/editorhtml.html',
-        options: {
-            animate: false,
-        }
-    }];
+    name: 'editor_code',
+    path: '/',
+    url: './editor_code.html',
+    options: {
+        animate: false,
+    }
+}, {
+    path: '(.*)',
+    url: './pages/404.html'
+}];
+>>>>>>> upstream/master
