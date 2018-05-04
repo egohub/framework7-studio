@@ -71,8 +71,8 @@ $$(document).on('click', '#btn-design-html', function() {
     var fileName = $$(this).attr('data-file');
     let loadpage
 	loadpage = new BrowserWindow({
-        width: 1000,
-        height: 500,
+        width: 1204,
+        height: 700,
         icon: path.join(__dirname, 'img/favicon.png')
     })
 
@@ -123,13 +123,19 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
             mode: "javascript"
         }]
     };
-
+    
+    CodeMirror.commands.autocomplete = function(cm) {
+        cm.showHint({hint: CodeMirror.hint.anyword});
+    }
+    
     var editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
         mode: "css",
         lineNumbers: true,
         selectionPointer: true,
-        theme : "monokai",
-        extraKeys : {"Ctrl+Space": "autocomplete"}
+        theme: "monokai",
+        tabSize: 5,
+        firstLineNUmber: 50,
+        extraKeys: {"Ctrl-Space": "autocomplete"}
     });
     
     $$(document).on('click', '#btn-open-html', function() {
@@ -140,7 +146,7 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
                 console.log(err);
                 return;
             }
-
+        
             editor.getDoc().setValue(data);
         });
     });
