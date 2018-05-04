@@ -1,8 +1,8 @@
 const electron = require('electron')
+const Menu = electron.Menu
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
-const Menu = electron.Menu
 const BrowserWindow = electron.remote.BrowserWindow
 
 fs.readdir(path.join(__dirname, 'pages/'), (err, dir) => {
@@ -68,28 +68,45 @@ var searchbar = app.searchbar.create({
 });
 
 $$(document).on('click', '#btn-design-html', function() {
-    var fileName = $$(this).attr('data-file');
+        var fileName = $$(this).attr('data-file');
+        let loadpage
+        loadpage = new BrowserWindow({
+            width: 1000,
+            height: 500,
+            icon: path.join(__dirname, 'img/favicon.png')
+        })
 
-    fs.writeFileSync(path.join(__dirname, 'temp.html'), fileName, 'utf-8');
-
-    builderWindow = new BrowserWindow({
-        width: 1204,
-        height: 700,
-        icon: path.join(__dirname, 'img/favicon.png')
+        loadpage.loadURL(url.format({
+            pathname: path.join(__dirname, 'builder.html'),
+            protocol: 'file:',
+            slashes: true
+        }))
     })
-
-    builderWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'builder.html'),
-        protocol: 'file:',
-        slashes: true
-    }))
-});
+    //var template = [{
+    //    label: "View",
+    //    submenu: [{
+    //        label: "Reload",
+    //        click: function() {
+    //            loadpage.webContents.reload();
+    //        }
+    //    }]
+    //}, {
+    //    label: "Developer",
+    //    submenu: [{
+    //        label: "Dev Tools",
+    //        click: function() {
+    //            loadpage.webContents.openDevTools()
+    //        }
+    //    }]
+    //}]
+    //
+    //const menu = Menu.buildFromTemplate(template);
+    //loadpage.setMenu(menu);
 
 $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
     var searchbar = app.searchbar.create({
         el: '.searchbar'
     });
-
     var mixedMode = {
         name: "htmlmixed",
         scriptTypes: [{
@@ -97,14 +114,22 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
             mode: null
         }, {
             matches: /(text|application)\/(x-)?vb(a|script)/i,
-            mode: "vbscript"
+            mode: "javascript"
+        }, {
+            matches: /(text|application)\/(x-)?vb(a|script)/i,
+            mode: "javascript"
+        }, {
+            matches: /(text|application)\/(x-)?vb(a|script)/i,
+            mode: "javascript"
         }]
     };
 
     var editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
-        mode: 'javascript',
+        mode: "css",
         lineNumbers: true,
-        selectionPointer: true
+        selectionPointer: true,
+        theme: "monokai",
+        extraKeys: { "Ctrl+Space": "autocomplete" }
     });
 
     $$(document).on('click', '#btn-open-html', function() {
