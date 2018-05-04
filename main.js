@@ -53,6 +53,7 @@ app.on('ready', function() {
     studioWindow.on('closed', function() {
         editorWindow = null;
     });
+
     //let mainWindow
     //
     //function mainApplication() {
