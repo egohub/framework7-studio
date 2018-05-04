@@ -102,11 +102,10 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
     };
 
     var editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
-        mode: mixedMode,
+        mode: 'javascript',
         lineNumbers: true,
         selectionPointer: true
     });
-
 
     $$(document).on('click', '#btn-open-html', function() {
         var fileName = $$(this).attr('data-file');
