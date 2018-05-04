@@ -4,6 +4,8 @@ const path = require('path')
 const url = require('url')
 const fs = require('fs')
 const BrowserWindow = electron.remote.BrowserWindow
+const beautify_js = require('js-beautify').js_beautify
+const beautify_html = require('js-beautify').html
 
 function file_list_html() {
     fs.readdir(path.join(__dirname, 'pages/'), (err, dir) => {
@@ -27,7 +29,7 @@ function file_list_html() {
                     '   <div class="item-content">' +
                     '       <div class="item-inner">' +
                     '           <div class="item-title">' + fileName + '</div>' +
-                    '           <div class="item-after"><i class="icon material-icons" id="btn-design-html" data-file="' + fileName + '">view_carousel</i>&nbsp;&nbsp;&nbsp;<i class="material-icons" style="font-size:22px;" id="btn-open" data-file="' + fileName + '">edit</i></div>' +
+                    '           <div class="item-after"><i class="icon material-icons" id="btn-design-html" data-file="' + fileName + '">web</i>&nbsp;&nbsp;&nbsp;<i class="material-icons" style="font-size:22px;" id="btn-open" data-file="' + fileName + '">edit</i></div>' +
                     '       </div>' +
                     '   </div>' +
                     '</li>');
@@ -133,11 +135,33 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         if (mode) {
             editor.setOption("mode", spec);
             CodeMirror.autoLoadMode(editor, mode);
-            console.log(mode + "--" + spec);
+            //console.log(mode + "--" + spec);
         } else {
             alert("Could not find a mode corresponding to " + val);
         }
     }
+
+    $$(document).on('click', '#btn-format-file', function() {
+        var fileName = $$(this).attr('data-file');
+
+        var fileType = fileName.split('.');
+
+        if (fileType[1] === 'html') {
+            fs.readFile(path.join(__dirname, 'pages/' + fileName), 'utf8', function(err, data) {
+                if (err) {
+                    throw err;
+                }
+                editor.getDoc().setValue(beautify_html(data, { indent_size: 4 }));
+            });
+        } else if (fileType[1] === 'js') {
+            fs.readFile(path.join(__dirname, 'js/' + fileName), 'utf8', function(err, data) {
+                if (err) {
+                    throw err;
+                }
+                editor.getDoc().setValue(beautify_js(data, { indent_size: 4 }));
+            });
+        }
+    });
 
     $$(document).on('click', '#btn-open', function() {
         var fileName = $$(this).attr('data-file');
@@ -145,6 +169,8 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         $$(document).find('#btn-save-file').attr('data-file', fileName);
 
         $$(document).find('#btn-delete-file').attr('data-file', fileName);
+
+        $$(document).find('#btn-format-file').attr('data-file', fileName);
 
         words = fileName.split('.');
 
