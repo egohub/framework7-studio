@@ -68,40 +68,20 @@ var searchbar = app.searchbar.create({
 });
 
 $$(document).on('click', '#btn-design-html', function() {
-        var fileName = $$(this).attr('data-file');
-        let loadpage
-        loadpage = new BrowserWindow({
-            width: 1000,
-            height: 500,
-            icon: path.join(__dirname, 'img/favicon.png')
-        })
-
-        loadpage.loadURL(url.format({
-            pathname: path.join(__dirname, 'builder.html'),
-            protocol: 'file:',
-            slashes: true
-        }))
+    var fileName = $$(this).attr('data-file');
+    let loadpage
+    loadpage = new BrowserWindow({
+        width: 1204,
+        height: 700,
+        icon: path.join(__dirname, 'img/favicon.png')
     })
-    //var template = [{
-    //    label: "View",
-    //    submenu: [{
-    //        label: "Reload",
-    //        click: function() {
-    //            loadpage.webContents.reload();
-    //        }
-    //    }]
-    //}, {
-    //    label: "Developer",
-    //    submenu: [{
-    //        label: "Dev Tools",
-    //        click: function() {
-    //            loadpage.webContents.openDevTools()
-    //        }
-    //    }]
-    //}]
-    //
-    //const menu = Menu.buildFromTemplate(template);
-    //loadpage.setMenu(menu);
+
+    loadpage.loadURL(url.format({
+        pathname: path.join(__dirname, 'builder.html'),
+        protocol: 'file:',
+        slashes: true
+    }))
+});
 
 $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
     var searchbar = app.searchbar.create({
