@@ -25,3 +25,20 @@ var command = editor.Commands;
 var panel = editor.Panels;
 
 config.showDevices = 0;
+
+fs.readFile(path.join(__dirname, 'temp.html'), 'utf-8', (err, data) => {
+    if (err) {
+        console.log(err);
+        return;
+    }
+
+    fs.readFile(path.join(__dirname, 'pages/' + data), 'utf-8', (err, cb_data) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        editor.setComponents(cb_data);
+    });
+
+    file_open_active = data;
+});

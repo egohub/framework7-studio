@@ -3,8 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; img-src * data: 'unsafe-inline'; connect-src * 'unsafe-inline'; frame-src *; media-src *;">
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="theme-color" content="#2196f3">
@@ -14,15 +13,6 @@
     <link rel="stylesheet" href="f7/css/card.css">
     <link rel="stylesheet" href="css/icons.css">
     <title>Framework7 Studio</title>
-    <style type="text/css" media="screen">
-    #editor { 
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-    }
-</style>
 </head>
 
 <body>
@@ -64,48 +54,13 @@
         </div>
 
         <div class="views ios-edges">
-            <div class="view view-main">
-                <div id="editor"></div>
-            </div>
+            <div class="view view-main"></div>
         </div>
     </div>
     <script src="f7/js/framework7.js"></script>
     <script src="editor/routes.js"></script>
     <script src="editor/app.js"></script>
     <script src="editor/left.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.3.3/ace.js"></script>
-    <script>
-        var ed = ace.edit("editor");
-        ed.setTheme("ace/theme/monokai");
-        $$(document).on('click', '#btn-open-html', function() {
-            var fileName = $$(this).attr('data-file');
-            fs.readFile(path.join(__dirname, 'pages/' + fileName), 'utf-8', (err, data) => {
-                if (err) {
-                    console.log(err);
-                    return;
-                }
-                var mode = autoImplementedMode(fileName);
-                ed.getSession().setMode(mode);
-                console.log(mode);
-                console.log(data);
-            });
-        });
-        function autoImplementedMode(filename){
-            var ext = filename.split('.').pop();
-            var prefix = "ace/mode/";
-        
-            if(!ext){
-                return prefix + "text";
-            }
-            switch (ext) {
-                case "js":
-                return prefix + "javascript";
-                case "css":
-                return prefix + "css";
-                case "html":
-                return prefix + "html";
-            }
-        }  
-    </script>
 </body>
+
 </html>

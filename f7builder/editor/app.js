@@ -15,7 +15,7 @@ var app = new Framework7({
     }
 });
 
-var view_main = app.views.create('#view-main', {
+var view_main = app.views.create('.view-main', {
     url: '/'
 });
 
