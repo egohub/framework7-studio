@@ -70,7 +70,7 @@ var searchbar = app.searchbar.create({
 $$(document).on('click', '#btn-design-html', function() {
     var fileName = $$(this).attr('data-file');
     let loadpage
-	loadpage = new BrowserWindow({
+    loadpage = new BrowserWindow({
         width: 1204,
         height: 700,
         icon: path.join(__dirname, 'img/favicon.png')
@@ -81,27 +81,7 @@ $$(document).on('click', '#btn-design-html', function() {
         protocol: 'file:',
         slashes: true
     }))
-})
-    //var template = [{
-    //    label: "View",
-    //    submenu: [{
-    //        label: "Reload",
-    //        click: function() {
-    //            loadpage.webContents.reload();
-    //        }
-    //    }]
-    //}, {
-    //    label: "Developer",
-    //    submenu: [{
-    //        label: "Dev Tools",
-    //        click: function() {
-    //            loadpage.webContents.openDevTools()
-    //        }
-    //    }]
-    //}]
-    //
-    //const menu = Menu.buildFromTemplate(template);
-    //loadpage.setMenu(menu);
+});
 
 $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
     var searchbar = app.searchbar.create({
@@ -124,10 +104,6 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         }]
     };
     
-    CodeMirror.commands.autocomplete = function(cm) {
-        cm.showHint({hint: CodeMirror.hint.anyword});
-    }
-    
     var editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
         mode: "css",
         lineNumbers: true,
@@ -135,9 +111,36 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         theme: "monokai",
         tabSize: 5,
         firstLineNUmber: 50,
-        extraKeys: {"Ctrl-Space": "autocomplete"}
+        styleActiveLine: true,
+        lineWrapping: true,
+        extraKeys: {"Ctrl-Space": "autocomplete", "Alt-F": "findPersistent"}
     });
-    
+    //var value = "// The bindings defined specifically in the Sublime Text mode\nvar bindings = {\n";
+    //var map = CodeMirror.keyMap.sublime;
+    //for (var key in map) {
+    //  var val = map[key];
+    //  if (key != "fallthrough" && val != "..." && (!/find/.test(val) || /findUnder/.test(val)))
+    //    value += "  \"" + key + "\": \"" + val + "\",\n";
+    //}
+    //value += "}\n\n// The implementation of joinLines\n";
+    //value += CodeMirror.commands.joinLines.toString().replace(/^function\s*\(/, "function joinLines(").replace(/\n  /g, "\n") + "\n";
+    //var editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
+    //    value: value,
+    //  keyMap: "sublime",
+    //  autoCloseBrackets: true,
+    //  matchBrackets: true,
+    //  showCursorWhenSelecting: true,
+    //    mode: "css",
+    //    lineNumbers: true,
+    //    selectionPointer: true,
+    //    theme: "monokai",
+    //    tabSize: 5,
+    //    firstLineNUmber: 50,
+    //    styleActiveLine: true,
+    //    lineWrapping: true,
+    //    extraKeys: {"Ctrl-Space": "autocomplete", "Alt-F": "findPersistent"}
+    //});
+
     $$(document).on('click', '#btn-open-html', function() {
         var fileName = $$(this).attr('data-file');
 
