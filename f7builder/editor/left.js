@@ -201,10 +201,15 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         if (fileName === null) {
             app.dialog.alert('Please open file to save', 'Information');
         } else {
+            var fileType = fileName.split('.');
+
             var html = editor.getDoc().getValue();
 
-            fs.writeFileSync(path.join(__dirname, 'pages/' + fileName), html, 'utf-8');
-
+            if (fileType[1] === 'html') {
+                fs.writeFileSync(path.join(__dirname, 'pages/' + fileName), html, 'utf-8');
+            } else if (fileType[1] === 'js') {
+                fs.writeFileSync(path.join(__dirname, 'js/' + fileName), html, 'utf-8');
+            }
             app.dialog.alert('File saved', 'Information');
         }
     });
