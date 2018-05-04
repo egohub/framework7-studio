@@ -1,8 +1,8 @@
 const electron = require('electron')
-const Menu = electron.Menu
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
+const Menu = electron.Menu
 const BrowserWindow = electron.remote.BrowserWindow
 
 fs.readdir(path.join(__dirname, 'pages/'), (err, dir) => {
@@ -69,37 +69,36 @@ var searchbar = app.searchbar.create({
 
 $$(document).on('click', '#btn-design-html', function() {
     var fileName = $$(this).attr('data-file');
-    let loadpage
-	loadpage = new BrowserWindow({
-        width: 1000,
-        height: 500,
+
+    fs.writeFileSync(path.join(__dirname, 'temp.html'), fileName, 'utf-8');
+
+    builderWindow = new BrowserWindow({
+        width: 1204,
+        height: 700,
         icon: path.join(__dirname, 'img/favicon.png')
     })
 
-    loadpage.loadURL(url.format({
+    builderWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'builder.html'),
         protocol: 'file:',
         slashes: true
     }))
+});
 
-    var template = [{
-        label: "View",
-        submenu: [{
-            label: "Reload",
-            click: function() {
-                loadpage.webContents.reload();
-            }
-        }]
-    }, {
-        label: "Developer",
-        submenu: [{
-            label: "Dev Tools",
-            click: function() {
-                loadpage.webContents.openDevTools()
-            }
-        }]
-    }]
+$$(document).on('click', '#btn-open-html', function() {
+    var fileName = $$(this).attr('data-file');
+    fs.readFile(path.join(__dirname, 'pages/' + fileName), 'utf-8', (err, data) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
 
-    var menu = Menu.buildFromTemplate(template2);
-    loadpage.setMenu(menu);
+        console.log(data);
+    });
+});
+
+$$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
+    var searchbar = app.searchbar.create({
+        el: '.searchbar'
+    });
 });
