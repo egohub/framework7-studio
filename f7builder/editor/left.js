@@ -81,25 +81,67 @@ $$(document).on('click', '#btn-design-html', function() {
         protocol: 'file:',
         slashes: true
     }))
+})
+    //var template = [{
+    //    label: "View",
+    //    submenu: [{
+    //        label: "Reload",
+    //        click: function() {
+    //            loadpage.webContents.reload();
+    //        }
+    //    }]
+    //}, {
+    //    label: "Developer",
+    //    submenu: [{
+    //        label: "Dev Tools",
+    //        click: function() {
+    //            loadpage.webContents.openDevTools()
+    //        }
+    //    }]
+    //}]
+    //
+    //const menu = Menu.buildFromTemplate(template);
+    //loadpage.setMenu(menu);
 
-    var template = [{
-        label: "View",
-        submenu: [{
-            label: "Reload",
-            click: function() {
-                loadpage.webContents.reload();
-            }
+$$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
+    var searchbar = app.searchbar.create({
+        el: '.searchbar'
+    });
+    var mixedMode = {
+        name: "htmlmixed",
+        scriptTypes: [{
+            matches: /\/x-handlebars-template|\/x-mustache/i,
+            mode: null
+        }, {
+            matches: /(text|application)\/(x-)?vb(a|script)/i,
+            mode: "javascript"
+        }, {
+            matches: /(text|application)\/(x-)?vb(a|script)/i,
+            mode: "javascript"
+        }, {
+            matches: /(text|application)\/(x-)?vb(a|script)/i,
+            mode: "javascript"
         }]
-    }, {
-        label: "Developer",
-        submenu: [{
-            label: "Dev Tools",
-            click: function() {
-                loadpage.webContents.openDevTools()
-            }
-        }]
-    }]
+    };
 
-    const menu = Menu.buildFromTemplate(template);
-    loadpage.setMenu(menu);
+    var editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
+        mode: "css",
+        lineNumbers: true,
+        selectionPointer: true,
+        theme : "monokai",
+        extraKeys : {"Ctrl+Space": "autocomplete"}
+    });
+    
+    $$(document).on('click', '#btn-open-html', function() {
+        var fileName = $$(this).attr('data-file');
+
+        fs.readFile(path.join(__dirname, 'pages/' + fileName), 'utf-8', (err, data) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+
+            editor.getDoc().setValue(data);
+        });
+    });
 });
