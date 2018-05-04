@@ -100,6 +100,6 @@ $$(document).on('click', '#btn-design-html', function() {
         }]
     }]
 
-    var menu = Menu.buildFromTemplate(template2);
+    const menu = Menu.buildFromTemplate(template);
     loadpage.setMenu(menu);
 });
