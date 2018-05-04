@@ -12,6 +12,13 @@
     <link rel="stylesheet" href="f7/css/framework7.css">
     <link rel="stylesheet" href="f7/css/card.css">
     <link rel="stylesheet" href="css/icons.css">
+    <link rel="stylesheet" href="editor/codemirror/lib/codemirror.css">
+    <style>
+        .CodeMirror {
+            border: 1px solid #eee;
+            height: auto;
+        }
+    </style>
     <title>Framework7 Studio</title>
 </head>
 
@@ -57,6 +64,8 @@
             <div class="view view-main"></div>
         </div>
     </div>
+    <script src="editor/codemirror/lib/codemirror.js"></script>
+    <script src="editor/codemirror/mode/htmlmixed/htmlmixed.js"></script>
     <script src="f7/js/framework7.js"></script>
     <script src="editor/routes.js"></script>
     <script src="editor/app.js"></script>

@@ -85,20 +85,39 @@ $$(document).on('click', '#btn-design-html', function() {
     }))
 });
 
-$$(document).on('click', '#btn-open-html', function() {
-    var fileName = $$(this).attr('data-file');
-    fs.readFile(path.join(__dirname, 'pages/' + fileName), 'utf-8', (err, data) => {
-        if (err) {
-            console.log(err);
-            return;
-        }
-
-        console.log(data);
-    });
-});
-
 $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
     var searchbar = app.searchbar.create({
         el: '.searchbar'
+    });
+
+    var mixedMode = {
+        name: "htmlmixed",
+        scriptTypes: [{
+            matches: /\/x-handlebars-template|\/x-mustache/i,
+            mode: null
+        }, {
+            matches: /(text|application)\/(x-)?vb(a|script)/i,
+            mode: "vbscript"
+        }]
+    };
+
+    var editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
+        mode: mixedMode,
+        lineNumbers: true,
+        selectionPointer: true
+    });
+
+
+    $$(document).on('click', '#btn-open-html', function() {
+        var fileName = $$(this).attr('data-file');
+
+        fs.readFile(path.join(__dirname, 'pages/' + fileName), 'utf-8', (err, data) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+
+            editor.getDoc().setValue(data);
+        });
     });
 });
