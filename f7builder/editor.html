@@ -12,15 +12,17 @@
     <link rel="stylesheet" href="f7/css/framework7.css">
     <link rel="stylesheet" href="f7/css/card.css">
     <link rel="stylesheet" href="css/icons.css">
-    <script src="editor/codemirror/lib/codemirror.js"></script>
     <link rel="stylesheet" href="editor/codemirror/lib/codemirror.css">
     <link rel="stylesheet" href="editor/codemirror/theme/monokai.css">
-    <style>
-        .CodeMirror {
-            border: 1px solid #eee;
-            height: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="editor/codemirror/addon/dialog/dialog.css">
+    <link rel="stylesheet" href="editor/codemirror/addon/search/matchesonscrollbar.css">
+    <link rel="stylesheet" href="editor/codemirror/addon/fold/foldgutter.css">
+    <link rel="stylesheet" href="editor/codemirror/addon/hint/show-hint.css">
+<style type="text/css">
+  .CodeMirror {border-top: 1px solid #eee; border-bottom: 1px solid #eee; height: 99%}
+  .CodeMirror-linenumbers { padding: 0 4px; }
+  dt {font-family: monospace; color: #666;}
+</style>
     <title>Framework7 Studio</title>
 </head>
 
@@ -70,14 +72,26 @@
     <script src="editor/routes.js"></script>
     <script src="editor/app.js"></script>
     <script src="editor/left.js"></script>
+    <script src="editor/codemirror/lib/codemirror.js"></script>
     <script src="editor/code.js"></script>
-
     <script src="editor/codemirror/mode/css/css.js"></script>
     <script src="editor/codemirror/mode/javascript/javascript.js"></script>
+    <script src="editor/codemirror/addon/selection/active-line.js"></script>
     <script src="editor/codemirror/mode/htmlmixed/htmlmixed.js"></script>
     <script src="editor/codemirror/addon/hint/html-hint.js"></script>
     <script src="editor/codemirror/addon/hint/css-hint.js"></script>
-    <script src="editor/codemirror/addon/hint/javascript-hint.js"></script>
+    <script src="editor/codemirror/addon/hint/show-hint.js"></script>
+    <!--<script src="editor/codemirror/addon/hint/anyword-hint.js"></script>
+    <script src="editor/codemirror/addon/hint/javascript-hint.js"></script>-->
+    <script src="editor/codemirror/addon/dialog/dialog.js"></script>
+    <script src="editor/codemirror/addon/search/searchcursor.js"></script>
+    <script src="editor/codemirror/addon/search/search.js"></script>
+    <script src="editor/codemirror/addon/scroll/annotatescrollbar.js"></script>
+    <script src="editor/codemirror/addon/search/matchesonscrollbar.js"></script>
+    <script src="editor/codemirror/addon/search/jump-to-line.js"></script>
+    <script src="editor/codemirror/addon/mode/loadmode.js"></script>
+    <script src="editor/codemirror/mode/meta.js"></script>
+    <script src="editor/codemirror/mode/scheme/scheme.js"></script>
 </body>
 
 </html>

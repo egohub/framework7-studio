@@ -26,7 +26,7 @@ fs.readdir(path.join(__dirname, 'pages/'), (err, dir) => {
                 '   <div class="item-content">' +
                 '       <div class="item-inner">' +
                 '           <div class="item-title">' + fileName + '</div>' +
-                '           <div class="item-after"><i class="icon material-icons" id="btn-design-html" data-file="' + fileName + '">view_carousel</i>&nbsp;&nbsp;&nbsp;<i class="material-icons" style="font-size:22px;" id="btn-open-html" data-file="' + fileName + '">edit</i></div>' +
+                '           <div class="item-after"><i class="icon material-icons" id="btn-design-html" data-file="' + fileName + '">view_carousel</i>&nbsp;&nbsp;&nbsp;<i class="material-icons" style="font-size:22px;" id="btn-open" data-file="' + fileName + '">edit</i></div>' +
                 '       </div>' +
                 '   </div>' +
                 '</li>');
@@ -55,7 +55,7 @@ fs.readdir(path.join(__dirname, 'js/'), (err, dir) => {
                 '    <div class="item-content">' +
                 '        <div class="item-inner">' +
                 '            <div class="item-title">' + fileName + '</div>' +
-                '           <div class="item-after"><i class="material-icons">edit</i></div>' +
+                '           <div class="item-after"><i class="material-icons" style="font-size:22px;" id="btn-open" data-file="' + fileName + '">edit</i></div>' +
                 '        </div>' +
                 '    </div>' +
                 '</li>');
@@ -87,46 +87,74 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
     var searchbar = app.searchbar.create({
         el: '.searchbar'
     });
-    var mixedMode = {
-        name: "htmlmixed",
-        scriptTypes: [{
-            matches: /\/x-handlebars-template|\/x-mustache/i,
-            mode: null
-        }, {
-            matches: /(text|application)\/(x-)?vb(a|script)/i,
-            mode: "javascript"
-        }, {
-            matches: /(text|application)\/(x-)?vb(a|script)/i,
-            mode: "javascript"
-        }, {
-            matches: /(text|application)\/(x-)?vb(a|script)/i,
-            mode: "javascript"
-        }]
-    };
-
+    
     var editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
-        mode: "css",
         lineNumbers: true,
         selectionPointer: true,
         theme: "monokai",
-        extraKeys: { "Ctrl+Space": "autocomplete" }
+        tabSize: 5,
+        firstLineNUmber: 50,
+        styleActiveLine: true,
+        lineWrapping: true,
+        extraKeys: {"Ctrl-Space": "autocomplete", "Alt-F": "findPersistent"}
     });
-
-    $$(document).on('click', '#btn-open-html', function() {
-        var fileName = $$(this).attr('data-file');
-
-        $$(document).find('#btn-save-file').attr('data-file', fileName);
-
-        fs.readFile(path.join(__dirname, 'pages/' + fileName), 'utf-8', (err, data) => {
-            if (err) {
-                console.log(err);
-                return;
+    
+    function change(fileName) {
+        var val = fileName, m, mode, spec;
+        if (m = /.+\.([^.]+)$/.exec(val)) {
+          var info = CodeMirror.findModeByExtension(m[1]);
+          if (info) {
+            mode = info.mode;
+            //spec = ; info.mime;
+            if(info.mime === 'text/html'){
+                spec = 'css';
+            }else{
+                spec = info.mime;
             }
+          }
+        } else if (/\//.test(val)) {
+          var info = CodeMirror.findModeByMIME(val);
+          if (info) {
+            mode = info.mode;
+            spec = val;
+          }
+        } else {
+          mode = spec = val;
+        }
+        if (mode) {
+          editor.setOption("mode", spec);
+          CodeMirror.autoLoadMode(editor, mode);
+          console.log(mode+"--"+spec);
+        } else {
+          alert("Could not find a mode corresponding to " + val);
+        }
+    }
 
-            editor.getDoc().setValue(data);
-        });
+    $$(document).on('click', '#btn-open', function() {
+        var fileName = $$(this).attr('data-file');
+        $$(document).find('#btn-save-file').attr('data-file', fileName);
+        words = fileName.split('.');
+        
+        if(words[1] === 'html'){
+            fs.readFile(path.join(__dirname, 'pages/' + fileName), 'utf-8', (err, data) => {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                change(fileName, data);
+                editor.getDoc().setValue(data);
+            });
+        }else if(words[1] === 'js'){
+            fs.readFile(path.join(__dirname, 'js/' + fileName), 'utf-8', (err, data) => {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                change(fileName, data);
+                editor.getDoc().setValue(data);
+            });
+        }  
     });
-
     $$(document).on('click', '#btn-save-file', function() {
         var fileName = $$(this).attr('data-file');
 
@@ -140,4 +168,4 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
             app.dialog.alert('File saved', 'Information');
         }
     });
-});
+});     
