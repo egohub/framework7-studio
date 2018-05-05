@@ -100,6 +100,15 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         el: '.searchbar'
     });
 
+    fs.readFile(path.join(__dirname, 'pages/home.html'), 'utf-8', (err, data) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        change('home.html', data);
+        editor.getDoc().setValue(data);
+    });
+
     var editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
         lineNumbers: true,
         selectionPointer: true,
