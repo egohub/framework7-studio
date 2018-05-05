@@ -168,6 +168,8 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
     $$(document).on('click', '#btn-open', function() {
         var fileName = $$(this).attr('data-file');
 
+        $$(document).find('#editor_code_title').html(fileName);
+
         $$(document).find('#btn-save-file').attr('data-file', fileName);
 
         $$(document).find('#btn-delete-file').attr('data-file', fileName);
