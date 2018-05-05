@@ -219,6 +219,8 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
     $$(document).on('click', '#btn-delete-file', function() {
         var fileName = $$(this).attr('data-file');
 
+        var fileType = fileName.split('.');
+
         if (fileName === null) {
             app.dialog.alert('Please open file to remove', 'Information');
         } else {
@@ -226,15 +228,29 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
                 app.dialog.alert('Canot remove this file', 'Information');
             } else {
                 app.dialog.confirm('Remove this file?', 'Warning', function() {
-                    fs.unlink(path.join(__dirname, 'pages/' + fileName), (err) => {
-                        if (err) {
-                            app.dialog.alert('Canot remove file', 'Information');
-                            console.log(err);
-                            return;
-                        }
-                        file_list_html();
-                        file_list_js();
-                    });
+                    if (fileType[1] === 'html') {
+                        fs.unlink(path.join(__dirname, 'pages/' + fileName), (err) => {
+                            if (err) {
+                                app.dialog.alert('Canot remove this file', 'Error');
+                                console.log(err);
+                                return;
+                            }
+
+                            file_list_html();
+                            file_list_js();
+                        });
+                    } else if (fileType[1] === 'js') {
+                        fs.unlink(path.join(__dirname, 'js/' + fileName), (err) => {
+                            if (err) {
+                                app.dialog.alert('Canot remove this file', 'Error');
+                                console.log(err);
+                                return;
+                            }
+
+                            file_list_html();
+                            file_list_js();
+                        });
+                    }
                 });
             }
         }
@@ -243,7 +259,14 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
 
 $$(document).on('click', '#btn-create-html', function() {
     app.dialog.prompt('Filename', 'New HTML File', function(fileName) {
-        fs.writeFileSync(path.join(__dirname, 'pages/' + fileName), '', 'utf-8');
+        fileType = fileName.split('.');
+        if (fileType[1] !== 'html') {
+            app.dialog.alert('Allow .html only', 'Information');
+        } else if (fileType === null) {
+            fs.writeFileSync(path.join(__dirname, 'pages/' + fileName + '.html'), '', 'utf-8');
+        } else {
+            fs.writeFileSync(path.join(__dirname, 'pages/' + fileName), '', 'utf-8');
+        }
         file_list_html();
         file_list_js();
     });
@@ -251,7 +274,14 @@ $$(document).on('click', '#btn-create-html', function() {
 
 $$(document).on('click', '#btn-create-js', function() {
     app.dialog.prompt('Filename', 'New Javascript File', function(fileName) {
-        fs.writeFileSync(path.join(__dirname, 'js/' + fileName), '', 'utf-8');
+        fileType = fileName.split('.');
+        if (fileType[1] !== 'js') {
+            app.dialog.alert('Allow .js only', 'Information');
+        } else if (fileType === null) {
+            fs.writeFileSync(path.join(__dirname, 'js/' + fileName + '.js'), '', 'utf-8');
+        } else {
+            fs.writeFileSync(path.join(__dirname, 'js/' + fileName), '', 'utf-8');
+        }
         file_list_html();
         file_list_js();
     });
