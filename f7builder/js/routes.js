@@ -1,7 +1,15 @@
 routes = [{
         name: 'home',
         path: '/',
-        url: './pages/home.html',
+        url: './home.html',
+        options: {
+            animate: false,
+        }
+    },
+    {
+        name: 'product',
+        path: '/product/',
+        url: './product.html',
         options: {
             animate: false,
         }

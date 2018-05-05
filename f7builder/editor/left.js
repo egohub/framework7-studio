@@ -42,7 +42,7 @@ function file_list_js() {
     fs.readdir(path.join(__dirname, 'js/'), (err, dir) => {
         $$(document).find('#list-file-js').empty();
         $$(document).find('#list-file-js').append(
-            '<li style="color:rgba(0, 0, 0, 0.54);background-color:#f4f4f4;">' +
+            '<li style="color:rgba(0, 0, 0, 0.54);background-color:#f4f4f4;" id="btn-create-js">' +
             '   <div class="item-content">' +
             '       <div class="item-inner">' +
             '           <div class="item-title">Javascript</div>' +
@@ -222,7 +222,7 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         if (fileName === null) {
             app.dialog.alert('Please open file to remove', 'Information');
         } else {
-            if (fileName === 'home.html' || fileName === '404.html' || fileName === 'app.js' || fileName === 'home.js' || fileName === 'routes.js') {
+            if (fileName === 'index.html' || fileName === 'home.html' || fileName === '404.html' || fileName === 'app.js' || fileName === 'home.js' || fileName === 'routes.js') {
                 app.dialog.alert('Canot remove this file', 'Information');
             } else {
                 app.dialog.confirm('Remove this file?', 'Warning', function() {
@@ -244,6 +244,14 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
 $$(document).on('click', '#btn-create-html', function() {
     app.dialog.prompt('Filename', 'New HTML File', function(fileName) {
         fs.writeFileSync(path.join(__dirname, 'pages/' + fileName), '', 'utf-8');
+        file_list_html();
+        file_list_js();
+    });
+});
+
+$$(document).on('click', '#btn-create-js', function() {
+    app.dialog.prompt('Filename', 'New Javascript File', function(fileName) {
+        fs.writeFileSync(path.join(__dirname, 'js/' + fileName), '', 'utf-8');
         file_list_html();
         file_list_js();
     });
