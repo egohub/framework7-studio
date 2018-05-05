@@ -5,7 +5,7 @@ const url = require('url')
 const fs = require('fs')
 const BrowserWindow = electron.remote.BrowserWindow
 const beautify_js = require('js-beautify').js_beautify
-const beautify_html = require('js-beautify').html
+const pretty = require('pretty');
 
 function file_list_html() {
     fs.readdir(path.join(__dirname, 'pages/'), (err, dir) => {
@@ -151,14 +151,14 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
                 if (err) {
                     throw err;
                 }
-                editor.getDoc().setValue(beautify_html(data, { indent_size: 4 }));
+                editor.getDoc().setValue(pretty(data, { ocd: true }));
             });
         } else if (fileType[1] === 'js') {
             fs.readFile(path.join(__dirname, 'js/' + fileName), 'utf8', function(err, data) {
                 if (err) {
                     throw err;
                 }
-                editor.getDoc().setValue(beautify_js(data, { indent_size: 4 }));
+                editor.getDoc().setValue(beautify_js(data, { indent_size: 2 }));
             });
         }
     });
