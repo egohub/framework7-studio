@@ -11,7 +11,7 @@ function file_list_html() {
     fs.readdir(path.join(__dirname, 'pages/'), (err, dir) => {
         $$(document).find('#list-file-html').empty();
         $$(document).find('#list-file-html').append(
-            '<li style="color:rgba(0, 0, 0, 0.54);background-color:#f4f4f4;">' +
+            '<li style="color:rgba(0, 0, 0, 0.54);background-color:#f4f4f4;" id="btn-create-html">' +
             '   <div class="item-content">' +
             '       <div class="item-inner">' +
             '           <div class="item-title">HTML</div>' +
@@ -91,6 +91,8 @@ $$(document).on('click', '#btn-design-html', function() {
         protocol: 'file:',
         slashes: true
     }))
+
+    fs.writeFileSync(path.join(__dirname, 'temp.html'), fileName, 'utf-8');
 });
 
 $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
@@ -236,5 +238,13 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
                 });
             }
         }
+    });
+});
+
+$$(document).on('click', '#btn-create-html', function() {
+    app.dialog.prompt('Filename', 'New HTML File', function(fileName) {
+        fs.writeFileSync(path.join(__dirname, 'pages/' + fileName), '', 'utf-8');
+        file_list_html();
+        file_list_js();
     });
 });
