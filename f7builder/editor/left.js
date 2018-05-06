@@ -74,7 +74,9 @@ file_list_html();
 file_list_js();
 
 var searchbar = app.searchbar.create({
-    el: '.searchbar'
+    el: '.searchbar',
+    searchContainer: '.list',
+    searchIn: '.item-title'
 });
 
 $$(document).on('click', '#btn-design-html', function() {
@@ -235,7 +237,7 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         if (fileName === null) {
             app.dialog.alert('Please open file to remove', 'Information');
         } else {
-            if (fileName === 'index.html' || fileName === 'home.html' || fileName === '404.html' || fileName === 'app.js' || fileName === 'home.js' || fileName === 'routes.js') {
+            if (fileName === 'index.html' || fileName === 'home.html' || fileName === '404.html' || fileName === 'app.js' || fileName === 'helper.js' || fileName === 'home.js' || fileName === 'routes.js') {
                 app.dialog.alert('Canot remove this file', 'Information');
             } else {
                 app.dialog.confirm('Remove this file?', 'Warning', function() {
