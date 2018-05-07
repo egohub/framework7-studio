@@ -72,14 +72,16 @@ $$(document).on('click', '#btn-design-html', function() {
     var fileName = $$(this).attr('data-file');
     let loadpage
     loadpage = new BrowserWindow({
+        frame: true,
+        title : "cekcok123",
         width: 1204,
         height: 700,
         icon: path.join(__dirname, 'img/favicon.png')
     })
-    PDFWindow.addSupport(loadpage)  
+    //PDFWindow.addSupport(loadpage)  
     loadpage.loadURL(url.format({
-        //pathname: path.join(__dirname, 'builder.html'),
-        pathname: path.join(__dirname, 'pdfcontent/a.pdf'),
+        pathname: path.join(__dirname, 'builder.html'),
+        //pathname: path.join(__dirname, 'pdfcontent/a.pdf'),
         protocol: 'file:',
         slashes: true
     }))
