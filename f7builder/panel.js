@@ -1,18 +1,11 @@
 panel.getPanels().reset([{
     id: 'options',
     buttons: [{
-        id: 'new-file',
-        className: 'fa fa-plus-square',
-        command: 'new',
+        id: 'sw-visibility',
+        command: 'sw-visibility',
+        className: 'fa fa-object-group',
         attributes: {
-            title: 'New File'
-        }
-    }, {
-        id: 'open-file',
-        className: 'fa fa-folder-open',
-        command: 'open-file',
-        attributes: {
-            title: 'Open File'
+            title: 'Show Elements'
         }
     }, {
         id: 'save-code',
@@ -43,13 +36,6 @@ panel.getPanels().reset([{
             title: 'Clear Canvas'
         }
     }, {
-        id: 'sw-visibility',
-        command: 'sw-visibility',
-        className: 'fa fa-object-group',
-        attributes: {
-            title: 'Show Elements'
-        }
-    }, {
         id: 'preview',
         context: 'preview',
         command: e => e.runCommand('preview'),
@@ -58,25 +44,11 @@ panel.getPanels().reset([{
             title: 'Preview'
         }
     }, {
-        id: 'fullscreen',
-        command: 'fullscreen',
-        className: 'fa fa-expand',
-        attributes: {
-            title: 'Full Screen'
-        }
-    }, {
         id: 'export-template',
         className: 'fa fa-code',
         command: e => e.runCommand('export-template'),
         attributes: {
             title: 'Code'
-        }
-    }, {
-        id: 'open-vscode',
-        className: 'fa fa-terminal',
-        command: 'open-vscode',
-        attributes: {
-            title: 'Open Visual Studio Code'
         }
     }]
 }, {
