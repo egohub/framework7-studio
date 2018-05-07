@@ -4,7 +4,6 @@ const path = require('path')
 const url = require('url')
 const fs = require('fs')
 const BrowserWindow = electron.remote.BrowserWindow
-//const PDFWindow = require('electron-pdf-window')
 const beautify_js = require('js-beautify').js_beautify
 const pretty = require('pretty');
 
@@ -25,15 +24,27 @@ function file_list_html() {
         } else {
             for (var i = 0; i < dir.length; i++) {
                 let fileName = dir[i];
-                $$(document).find('#list-file-html').append(
-                    '<li>' +
-                    '   <div class="item-content">' +
-                    '       <div class="item-inner">' +
-                    '           <div class="item-title">' + fileName + '</div>' +
-                    '           <div class="item-after"><i class="icon material-icons" id="btn-design-html" data-file="' + fileName + '">web</i>&nbsp;&nbsp;&nbsp;<i class="material-icons" style="font-size:22px;" id="btn-open" data-file="' + fileName + '">edit</i></div>' +
-                    '       </div>' +
-                    '   </div>' +
-                    '</li>');
+                if (fileName === 'index.html') {
+                    $$(document).find('#list-file-html').append(
+                        '<li>' +
+                        '   <div class="item-content">' +
+                        '       <div class="item-inner">' +
+                        '           <div class="item-title">' + fileName + '</div>' +
+                        '           <div class="item-after"><i class="material-icons" style="font-size:22px;" id="btn-open" data-file="' + fileName + '">edit</i></div>' +
+                        '       </div>' +
+                        '   </div>' +
+                        '</li>');
+                } else {
+                    $$(document).find('#list-file-html').append(
+                        '<li>' +
+                        '   <div class="item-content">' +
+                        '       <div class="item-inner">' +
+                        '           <div class="item-title">' + fileName + '</div>' +
+                        '           <div class="item-after"><i class="icon material-icons" id="btn-design-html" data-file="' + fileName + '">web</i>&nbsp;&nbsp;&nbsp;<i class="material-icons" style="font-size:22px;" id="btn-open" data-file="' + fileName + '">edit</i></div>' +
+                        '       </div>' +
+                        '   </div>' +
+                        '</li>');
+                }
             }
         }
     });
@@ -82,16 +93,17 @@ var searchbar = app.searchbar.create({
 
 $$(document).on('click', '#btn-design-html', function() {
     var fileName = $$(this).attr('data-file');
+
     let loadpage
+
     loadpage = new BrowserWindow({
         width: 1204,
         height: 700,
         icon: path.join(__dirname, 'img/favicon.png')
     })
-    //PDFWindow.addSupport(loadpage)  
+
     loadpage.loadURL(url.format({
         pathname: path.join(__dirname, 'builder.html'),
-        //pathname: path.join(__dirname, 'pdfcontent/a.pdf'),
         protocol: 'file:',
         slashes: true
     }))
@@ -112,7 +124,7 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         change('home.html', data);
         editor.getDoc().setValue(data);
     });
-    
+
 
     var editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
         lineNumbers: true,
@@ -124,25 +136,27 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         lineWrapping: true,
         extraKeys: { "Ctrl-Space": "autocomplete", "Alt-F": "findPersistent" }
     });
-    
-    var map = {"Ctrl-S": function(cm){
-        var fileName = $$('#editor_code_title').html();
-        if (fileName === null) {
-             app.dialog.alert('Please open file to save', 'Information');
-         } else {
-             var fileType = fileName.split('.');
-        
-             var html = editor.getDoc().getValue();
-        
-             if (fileType[1] === 'html') {
-                 fs.writeFileSync(path.join(__dirname, 'pages/' + fileName), html, 'utf-8');
-             } else if (fileType[1] === 'js') {
-                 fs.writeFileSync(path.join(__dirname, 'js/' + fileName), html, 'utf-8');
-             }
-             app.dialog.alert('File saved', 'Information');
-         }
-    }}
-        editor.addKeyMap(map);
+
+    var map = {
+        "Ctrl-S": function(cm) {
+            var fileName = $$('#editor_code_title').html();
+            if (fileName === null) {
+                app.dialog.alert('Please open file to save', 'Information');
+            } else {
+                var fileType = fileName.split('.');
+
+                var html = editor.getDoc().getValue();
+
+                if (fileType[1] === 'html') {
+                    fs.writeFileSync(path.join(__dirname, 'pages/' + fileName), html, 'utf-8');
+                } else if (fileType[1] === 'js') {
+                    fs.writeFileSync(path.join(__dirname, 'js/' + fileName), html, 'utf-8');
+                }
+                app.dialog.alert('File saved', 'Information');
+            }
+        }
+    }
+    editor.addKeyMap(map);
 
     function change(fileName) {
         var val = fileName,
@@ -151,7 +165,6 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
             var info = CodeMirror.findModeByExtension(m[1]);
             if (info) {
                 mode = info.mode;
-                //spec = ; info.mime;
                 if (info.mime === 'text/html') {
                     spec = 'css';
                 } else {
@@ -170,7 +183,6 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         if (mode) {
             editor.setOption("mode", spec);
             CodeMirror.autoLoadMode(editor, mode);
-            //console.log(mode + "--" + spec);
         } else {
             alert("Could not find a mode corresponding to " + val);
         }
@@ -204,8 +216,6 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         $$(document).find('#editor_code_title').html(fileName);
 
         $$(document).find('#btn-save-file').attr('data-file', fileName);
-        
-        
 
         $$(document).find('#btn-delete-file').attr('data-file', fileName);
 
@@ -322,4 +332,20 @@ $$(document).on('click', '#btn-create-js', function() {
         file_list_html();
         file_list_js();
     });
+});
+
+$$(document).on('click', '#btn-run-electron', function() {
+    let runWindow
+
+    runWindow = new BrowserWindow({
+        width: 800,
+        height: 600,
+        icon: path.join(__dirname, 'img/favicon.png')
+    })
+
+    runWindow.loadURL(url.format({
+        pathname: path.join(__dirname, 'pages/index.html'),
+        protocol: 'file:',
+        slashes: true
+    }))
 });
