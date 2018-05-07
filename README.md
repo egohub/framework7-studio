@@ -5,3 +5,6 @@ Framework7 Studio is a desktop application builder based on electronjs.
 ```sh
 npm install electron -g --verbose --unsafe-perm=true
 ```
+```sh
+npm install
+```
