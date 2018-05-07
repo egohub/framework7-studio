@@ -4,6 +4,7 @@ const path = require('path')
 const url = require('url')
 const fs = require('fs')
 const BrowserWindow = electron.remote.BrowserWindow
+const PDFWindow = require('electron-pdf-window')
 
 fs.readdir(path.join(__dirname, 'pages/'), (err, dir) => {
     $$(document).find('#list-file-html').empty();
@@ -75,9 +76,10 @@ $$(document).on('click', '#btn-design-html', function() {
         height: 700,
         icon: path.join(__dirname, 'img/favicon.png')
     })
-
+    PDFWindow.addSupport(loadpage)  
     loadpage.loadURL(url.format({
-        pathname: path.join(__dirname, 'builder.html'),
+        //pathname: path.join(__dirname, 'builder.html'),
+        pathname: path.join(__dirname, 'pdfcontent/a.pdf'),
         protocol: 'file:',
         slashes: true
     }))
