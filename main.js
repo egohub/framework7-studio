@@ -51,7 +51,7 @@ app.on('ready', function() {
     studioWindow.setMenu(menu);
 
     studioWindow.on('closed', function() {
-        editorWindow = null;
+        studioWindow = null;
     });
 });
 
