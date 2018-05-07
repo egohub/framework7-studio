@@ -4,6 +4,7 @@ const path = require('path')
 const url = require('url')
 const fs = require('fs')
 const BrowserWindow = electron.remote.BrowserWindow
+//const PDFWindow = require('electron-pdf-window')
 const beautify_js = require('js-beautify').js_beautify
 const pretty = require('pretty');
 
@@ -87,9 +88,10 @@ $$(document).on('click', '#btn-design-html', function() {
         height: 700,
         icon: path.join(__dirname, 'img/favicon.png')
     })
-
+    //PDFWindow.addSupport(loadpage)  
     loadpage.loadURL(url.format({
         pathname: path.join(__dirname, 'builder.html'),
+        //pathname: path.join(__dirname, 'pdfcontent/a.pdf'),
         protocol: 'file:',
         slashes: true
     }))
@@ -110,6 +112,7 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         change('home.html', data);
         editor.getDoc().setValue(data);
     });
+    
 
     var editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
         lineNumbers: true,
@@ -121,6 +124,25 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         lineWrapping: true,
         extraKeys: { "Ctrl-Space": "autocomplete", "Alt-F": "findPersistent" }
     });
+    
+    var map = {"Ctrl-S": function(cm){
+        var fileName = $$('#editor_code_title').html();
+        if (fileName === null) {
+             app.dialog.alert('Please open file to save', 'Information');
+         } else {
+             var fileType = fileName.split('.');
+        
+             var html = editor.getDoc().getValue();
+        
+             if (fileType[1] === 'html') {
+                 fs.writeFileSync(path.join(__dirname, 'pages/' + fileName), html, 'utf-8');
+             } else if (fileType[1] === 'js') {
+                 fs.writeFileSync(path.join(__dirname, 'js/' + fileName), html, 'utf-8');
+             }
+             app.dialog.alert('File saved', 'Information');
+         }
+    }}
+        editor.addKeyMap(map);
 
     function change(fileName) {
         var val = fileName,
@@ -182,6 +204,8 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         $$(document).find('#editor_code_title').html(fileName);
 
         $$(document).find('#btn-save-file').attr('data-file', fileName);
+        
+        
 
         $$(document).find('#btn-delete-file').attr('data-file', fileName);
 
