@@ -6,6 +6,7 @@ const fs = require('fs')
 const BrowserWindow = electron.remote.BrowserWindow
 const beautify_js = require('js-beautify').js_beautify
 const pretty = require('pretty');
+const shell = require('shelljs')
 
 function file_list_html() {
     fs.readdir(path.join(__dirname, 'pages/'), (err, dir) => {
@@ -348,4 +349,19 @@ $$(document).on('click', '#btn-run-electron', function() {
         protocol: 'file:',
         slashes: true
     }))
+});
+
+function fsExistsSync(myDir) {
+    try {
+        fs.accessSync(myDir);
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
+$$(document).on('click', '#btn-run-cordova', function() {
+    if (!fsExistsSync('cordova_application')) {
+        shell.exec('cordova create cordova_application', { async: true });
+    }
 });

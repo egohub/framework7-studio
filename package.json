@@ -7,10 +7,9 @@
         "start": "electron ."
     },
     "build": {
-        "appId": "com.nowdb.studio",
+        "appId": "com.framework7.studio",
         "dmg": {
-            "contents": [
-                {
+            "contents": [{
                     "x": 110,
                     "y": 150
                 },
@@ -46,7 +45,8 @@
         "electron-builder": "^20.12.0",
         "electron-pdf-window": "^1.0.12",
         "js-beautify": "^1.7.5",
-        "pretty": "^2.0.0"
+        "pretty": "^2.0.0",
+        "shelljs": "^0.8.1"
     },
     "dependencies": {
         "electron-packager": "^12.0.1",
