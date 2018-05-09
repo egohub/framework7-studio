@@ -136,6 +136,11 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         lineWrapping: true,
         extraKeys: { "Ctrl-Space": "autocomplete", "Alt-F": "findPersistent" }
     });
+    
+    var doc = editor.getDoc();
+    var cursor = doc.getCursor(); // gets the line number in the cursor position
+    var line = doc.getLine(cursor.line); // get the line contents 
+    console.log(line);
 
     var map = {
         "Ctrl-S": function(cm) {
