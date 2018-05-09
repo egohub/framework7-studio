@@ -1,12 +1,13 @@
-const electron = require('electron')
-const Menu = electron.Menu
-const path = require('path')
-const url = require('url')
-const fs = require('fs')
-const BrowserWindow = electron.remote.BrowserWindow
-const beautify_js = require('js-beautify').js_beautify
+const electron = require('electron');
+const Menu = electron.Menu;
+const path = require('path');
+const url = require('url');
+const fs = require('fs');
+const BrowserWindow = electron.remote.BrowserWindow;
+const beautify_js = require('js-beautify').js_beautify;
 const pretty = require('pretty');
 const shell = require('shelljs')
+const {dialog} = electron.remote;
 
 function file_list_html() {
     fs.readdir(path.join(__dirname, 'pages/'), (err, dir) => {
@@ -82,9 +83,40 @@ function file_list_js() {
     });
 }
 
-file_list_html();
+function file_list_other() {
+    fs.readdir(path.join(__dirname, 'file/'), (err, dir) => {
+        $$(document).find('#list-file-other').empty();
+        $$(document).find('#list-file-other').append(
+            '<li style="color:rgba(0, 0, 0, 0.54);background-color:#f4f4f4;" id="btn-create-file">' +
+            '   <div class="item-content">' +
+            '       <div class="item-inner">' +
+            '           <div class="item-title">Attachment</div>' +
+            '           <div class="item-after"><i class="material-icons">add</i></div>' +
+            '       </div>' +
+            '   </div>' +
+            '</li>');
+        if (dir.length === 0) {
+            //Do Nothing
+        } else {
+            for (var i = 0; i < dir.length; i++) {
+                let fileName = dir[i];
+                $$(document).find('#list-file-other').append(
+                    '<li>' +
+                    '    <div class="item-content">' +
+                    '        <div class="item-inner">' +
+                    '            <div class="item-title">' + fileName + '</div>' +
+                    '           <div class="item-after"><i class="material-icons" style="font-size:22px;" id="btn-open" data-file="' + fileName + '">edit</i></div>' +
+                    '        </div>' +
+                    '    </div>' +
+                    '</li>');
+            }
+        }
+    });
+}
 
+file_list_html();
 file_list_js();
+file_list_other();
 
 var searchbar = app.searchbar.create({
     el: '.searchbar',
@@ -137,6 +169,11 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         lineWrapping: true,
         extraKeys: { "Ctrl-Space": "autocomplete", "Alt-F": "findPersistent" }
     });
+    
+    //var doc = editor.getDoc();
+    //var cursor = doc.getCursor(); // gets the line number in the cursor position
+    //var line = doc.getLine(cursor.line); // get the line contents 
+    //console.log(line);
 
     var map = {
         "Ctrl-S": function(cm) {
@@ -152,6 +189,8 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
                     fs.writeFileSync(path.join(__dirname, 'pages/' + fileName), html, 'utf-8');
                 } else if (fileType[1] === 'js') {
                     fs.writeFileSync(path.join(__dirname, 'js/' + fileName), html, 'utf-8');
+                } else {
+                    fs.writeFileSync(path.join(__dirname, 'file/' + fileName), html, 'utf-8');
                 }
                 app.dialog.alert('File saved', 'Information');
             }
@@ -242,6 +281,19 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
                 change(fileName, data);
                 editor.getDoc().setValue(data);
             });
+        } else {
+            fs.readFile(path.join(__dirname, 'file/' + fileName), 'utf-8', (err, data) => {
+                if (err) {
+                    console.log(err);
+                    return;
+                } else {
+                   var filepath = (path.join(__dirname, 'file/' + fileName));
+                   filepath = filepath.split('/file/');
+                   var file = '../file/'+filepath[1]+"  //add by copy this path"  
+                }
+                change(fileName, data);
+                editor.getDoc().setValue(file);
+            });
         }
     });
 
@@ -259,6 +311,8 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
                 fs.writeFileSync(path.join(__dirname, 'pages/' + fileName), html, 'utf-8');
             } else if (fileType[1] === 'js') {
                 fs.writeFileSync(path.join(__dirname, 'js/' + fileName), html, 'utf-8');
+            } else {
+                app.dialog.alert('File save not allowed', 'Information');
             }
             app.dialog.alert('File saved', 'Information');
         }
@@ -286,6 +340,7 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
 
                             file_list_html();
                             file_list_js();
+                            file_list_other();
                         });
                     } else if (fileType[1] === 'js') {
                         fs.unlink(path.join(__dirname, 'js/' + fileName), (err) => {
@@ -297,6 +352,19 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
 
                             file_list_html();
                             file_list_js();
+                            file_list_other();
+                        });
+                    } else {
+                        fs.unlink(path.join(__dirname, 'file/' + fileName), (err) => {
+                            if (err) {
+                                app.dialog.alert('Canot remove this file', 'Error');
+                                console.log(err);
+                                return;
+                            }
+
+                            file_list_html();
+                            file_list_js();
+                            file_list_other();
                         });
                     }
                 });
@@ -317,6 +385,7 @@ $$(document).on('click', '#btn-create-html', function() {
         }
         file_list_html();
         file_list_js();
+        file_list_other();
     });
 });
 
@@ -332,7 +401,32 @@ $$(document).on('click', '#btn-create-js', function() {
         }
         file_list_html();
         file_list_js();
+        file_list_other();
     });
+});
+
+$$(document).on('click', '#btn-create-file', function() {
+    dialog.showOpenDialog(function (fileName) {
+       if(fileName === undefined) { 
+          app.dialog.alert("No file selected"); 
+       } else {
+        readFile(fileName[0]);
+       } 
+    });
+    
+    function readFile(filepath) { 
+        fs.readFile(filepath, 'utf-8', (err, data) => { 
+           if(err){ 
+              alert("An error ocurred reading the file :" + err.message) 
+              return 
+           } 
+            let namefile = filepath.replace(/^.*[\\\/]/, '');
+            fs.writeFileSync(path.join(__dirname, 'file/'+namefile), data, 'utf-8');
+            file_list_html();
+            file_list_js();
+            file_list_other();
+        }) 
+    }  
 });
 
 $$(document).on('click', '#btn-run-electron', function() {
