@@ -287,11 +287,10 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
                     console.log(err);
                     return;
                 } else {
-                   var filepath = (path.join(__dirname, 'file/' + fileName));
-                   filepath = filepath.split('/file/');
-                   var file = '../file/'+filepath[1]+"  //add by copy this path"  
+                   //var filepath = (path.join(__dirname, 'file/' + fileName));
+                   //filepath = filepath.split('/file/');
+                   var file = '../file/'+fileName+'\n'+" //add by copy this path"  
                 }
-                //change(fileName, data);
                 editor.getDoc().setValue(file);
             });
         }
