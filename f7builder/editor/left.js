@@ -360,8 +360,8 @@ function fsExistsSync(myDir) {
     }
 }
 
-$$(document).on('click', '#btn-run-cordova', function() {
-    if (!fsExistsSync('cordova_application')) {
-        shell.exec('cordova create cordova_application', { async: true });
-    }
-});
+//$$(document).on('click', '#btn-run-cordova', function() {
+//    if (!fsExistsSync('cordova_application')) {
+//        shell.exec('cordova create cordova_application', { async: true });
+//    }
+//});
