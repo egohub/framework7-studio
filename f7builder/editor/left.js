@@ -340,6 +340,7 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
                             file_list_html();
                             file_list_js();
                             file_list_other();
+                            calldefault();
                         });
                     } else if (fileType[1] === 'js') {
                         fs.unlink(path.join(__dirname, 'js/' + fileName), (err) => {
@@ -352,6 +353,7 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
                             file_list_html();
                             file_list_js();
                             file_list_other();
+                            calldefault();
                         });
                     } else {
                         fs.unlink(path.join(__dirname, 'file/' + fileName), (err) => {
@@ -364,9 +366,23 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
                             file_list_html();
                             file_list_js();
                             file_list_other();
+                            calldefault();
                         });
                     }
+
                 });
+
+                function calldefault(){
+                    $$(document).find('#editor_code_title').html('home.html');
+                    fs.readFile(path.join(__dirname, 'pages/home.html'), 'utf-8', (err, data) => {
+                        if (err) {
+                            console.log(err);
+                            return;
+                        }
+                        change('home.html', data);
+                        editor.getDoc().setValue(data);
+                    });
+                }
             }
         }
     });
