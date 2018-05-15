@@ -168,6 +168,7 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
         styleActiveLine: true,
         lineWrapping: true,
         fontsize : 40,
+        dragDrop: true,
         extraKeys: { "Ctrl-Space": "autocomplete", "Alt-F": "findPersistent" }
     });
     
