@@ -162,11 +162,12 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
     var editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
         lineNumbers: true,
         selectionPointer: true,
-        theme: "monokai",
+        theme: "dracula",
         tabSize: 5,
         firstLineNUmber: 50,
         styleActiveLine: true,
         lineWrapping: true,
+        fontsize : 40,
         extraKeys: { "Ctrl-Space": "autocomplete", "Alt-F": "findPersistent" }
     });
     
@@ -206,10 +207,11 @@ $$(document).on('page:init', '.page[data-name="editor_code"]', function(e) {
             if (info) {
                 mode = info.mode;
                 if (info.mime === 'text/html') {
-                    spec = 'css';
+                    spec = 'text/css';
                 } else {
                     spec = info.mime;
                 }
+                console.log(mode+' '+spec)
             }
         } else if (/\//.test(val)) {
             var info = CodeMirror.findModeByMIME(val);
